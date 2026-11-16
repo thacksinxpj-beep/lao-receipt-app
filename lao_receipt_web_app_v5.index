@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="lo">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123b35">
+<title>ແອັບໃບຮັບເງິນ</title>
+<style>
+:root{--green:#123b35;--gold:#c59a52;--bg:#f4f6f4;--ink:#1d2926;--muted:#66736e;--line:#dce4df}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans Lao","Phetsarath OT",sans-serif}
+header{background:var(--green);color:#fff;padding:22px 16px 18px}
+header h1{font-size:22px;margin:0 0 5px}
+header p{margin:0;color:#d9e7e1;font-size:13px}
+main{max-width:900px;margin:0 auto;padding:14px}
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tabs button,.btn{border:0;border-radius:10px;padding:12px 14px;font:inherit;font-weight:600;cursor:pointer}
+.tabs button{background:#e2e9e5;color:var(--green);flex:1}
+.tabs button.active,.primary{background:var(--green);color:white}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:13px;box-shadow:0 2px 8px #102b2010}
+h2{font-size:17px;margin:0 0 12px;color:var(--green)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field.full{grid-column:1/-1}
+label{font-size:13px;color:var(--muted)}
+input,textarea,select{width:100%;border:1px solid #cfd9d3;border-radius:9px;padding:11px 10px;font:inherit;font-size:16px;background:#fff;color:var(--ink);min-width:0}
+textarea{min-height:65px;resize:vertical}
+.item{border:1px solid var(--line);border-radius:11px;padding:11px;margin:10px 0}
+.item-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;font-weight:700}
+.item-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.remove{background:#fbe9e7;color:#a52d24;padding:7px 10px;border:0;border-radius:8px}
+.summary{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;font-size:15px}
+.summary strong{font-size:18px;color:var(--green)}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.actions .btn{flex:1;min-width:125px}
+.secondary{background:#e8eeea;color:var(--green)}
+.note{font-size:12px;color:var(--muted);line-height:1.6}
+.history-row{display:flex;justify-content:space-between;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:11px 0}
+.history-row:last-child{border-bottom:0}
+.history-row small{display:block;color:var(--muted);margin-top:3px}
+.history-row button{background:#e8eeea;color:var(--green);border:0;border-radius:8px;padding:8px}
+.hidden{display:none!important}
+#paper{display:none}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.field.full{grid-column:auto}main{padding:10px}.card{padding:12px}}
+@media print{
+ @page{size:A4;margin:0}
+ html,body{background:#fff!important;margin:0!important;padding:0!important}
+ body{font-size:10.5px;color:#26332f;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ header,.tabs,#editor,#historyView,.no-print{display:none!important}
+ main{padding:0!important;margin:0!important;max-width:none!important}
+ #paper{display:block!important;color:#26332f;font-family:"Noto Sans Lao","Phetsarath OT",sans-serif;padding:13mm 14mm 12mm}
+ .paper-head{position:relative;text-align:left;border:0;border-left:5px solid #174b40;background:#f1f6f3;padding:13px 16px 12px 18px;margin:0 0 17px;border-radius:0 8px 8px 0}
+ .paper-head h1{font-size:19px;line-height:1.4;margin:0 0 4px;color:#174b40;font-weight:800}
+ .paper-head p{font-size:9px;line-height:1.5;margin:2px 0;color:#53645d}
+ .paper-title{text-align:center;font-size:19px;font-weight:800;letter-spacing:.3px;color:#174b40;margin:12px 0 15px}
+ .paper-title:after{content:"";display:block;width:52px;height:2px;background:#c69b55;margin:7px auto 0}
+ .paper-info{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;margin:0 0 15px;padding:11px 13px;background:#fafbf9;border:1px solid #dce5df;border-radius:7px}
+ .paper-info>div{padding:5px 0;line-height:1.55;border-bottom:1px solid #edf1ee}
+ .paper-info>div:nth-last-child(-n+2){border-bottom:0}
+ .paper-info b{color:#52645c;font-weight:700}
+ table{width:100%;border-collapse:separate;border-spacing:0;font-size:9.5px;margin:8px 0 0;border:1px solid #cbd8d1;border-radius:6px;overflow:hidden}
+ th,td{border:0;border-right:1px solid #d8e1dc;border-bottom:1px solid #d8e1dc;padding:8px 6px;text-align:center;line-height:1.45}
+ th:last-child,td:last-child{border-right:0}
+ tbody tr:last-child td{border-bottom:0}
+ th{background:#174b40!important;color:#fff;font-weight:700}
+ td.desc{text-align:left}
+ tbody tr:nth-child(even){background:#f5f8f6}
+ .totalbox{margin:14px 0 0 auto;width:49%;font-size:10.5px;padding:9px 12px;background:#f7f9f7;border:1px solid #dce5df;border-radius:7px}
+ .totalbox div{display:flex;justify-content:space-between;gap:12px;padding:5px 2px;border-bottom:1px solid #e4ebe6}
+ .totalbox div:last-child{border-bottom:0}
+ .totalbox .grand{margin-top:3px;padding-top:8px;border-top:1.5px solid #174b40;font-weight:800;font-size:13px;color:#174b40}
+ .paper-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:19px;gap:18px;break-inside:avoid;page-break-inside:avoid}
+ .paper-foot>div:first-child{flex:1;min-width:0}
+ .paper-foot>div:first-child>b{font-size:11px;color:#174b40}
+ .paper-foot>div:first-child>div{display:flex;gap:10px;flex-wrap:wrap;margin-top:7px!important}
+ .paper-foot>div:first-child>div>div{min-width:0!important;width:calc(50% - 5px);padding:8px;border:1px solid #dce5df;border-radius:7px;background:#fbfcfb;break-inside:avoid}
+ .paper-foot p{font-size:8.5px;line-height:1.45;margin:3px 0}
+ .paper-foot img{width:90px!important;height:90px!important;object-fit:contain;margin-top:6px!important}
+ .sign{text-align:center;min-width:145px;font-size:9px}
+ .signline{border-top:1px solid #7e8c85;margin-top:42px;padding-top:7px;line-height:1.6}
+ #pShopFoot{color:#64736c}
+}
+</style>
+</head>
+<body>
+<header><h1>ໃບຮັບເງິນ</h1><p>ລະບົບອອກໃບຮັບເງິນ • ສະກຸນເງິນ LAK</p></header>
+<main>
+ <nav class="tabs no-print"><button id="tabNew" class="active" onclick="showTab('new')">ສ້າງໃບບິນ</button><button id="tabHistory" onclick="showTab('history')">ປະຫວັດໃບບິນ</button><button id="tabSettings" onclick="showTab('settings')">ຕັ້ງຄ່າຮ້ານ</button></nav>
+ <section id="editor">
+  <div class="card">
+   <h2>ຂໍ້ມູນໃບຮັບເງິນ</h2>
+   <div class="grid">
+    <div class="field"><label>ເລກທີໃບບິນ</label><input id="receiptNo"></div>
+    <div class="field"><label>ວັນທີ</label><input id="receiptDate" type="date"></div>
+    <div class="field"><label>ຊື່ລູກຄ້າ</label><input id="customer" placeholder="ປ້ອນຊື່ລູກຄ້າ"></div>
+    <div class="field"><label>ເບີໂທ</label><input id="phone" inputmode="tel" placeholder="ເບີໂທລູກຄ້າ"></div>
+    <div class="field full"><label>ທີ່ຢູ່</label><input id="address" placeholder="ທີ່ຢູ່ລູກຄ້າ"></div>
+    <div class="field full"><label>ໝາຍເຫດ</label><input id="memo" placeholder="ລາຍລະອຽດເພີ່ມເຕີມ (ຖ້າມີ)"></div>
+   </div>
+  </div>
+  <div class="card">
+   <h2>ລາຍການສິນຄ້າ / ບໍລິການ</h2>
+   <div id="items"></div>
+   <button class="btn secondary no-print" onclick="addItem()">＋ ເພີ່ມລາຍການ</button>
+  </div>
+  <div class="card">
+   <h2>ສະຫຼຸບການຮັບເງິນ</h2>
+   <div class="summary"><span>ຍອດລວມ</span><strong id="grandTotal">0 ₭</strong></div>
+   <div class="field" style="margin-top:12px"><label>ຈຳນວນເງິນທີ່ຮັບແລ້ວ (ກີບ)</label><input id="paid" type="number" inputmode="decimal" min="0" value="0" oninput="updateTotals()"></div>
+   <div class="summary" style="margin-top:12px"><span>ຍອດຄ້າງຊຳລະ</span><strong id="balance">0 ₭</strong></div>
+   <p class="note">ສູດ: ຈຳນວນ × (ລາຄາຕໍ່ໜ່ວຍ − ສ່ວນຫຼຸດຕໍ່ໜ່ວຍ). ສະກຸນເງິນແມ່ນ ກີບ (LAK).</p>
+  </div>
+  <div class="actions no-print">
+   <button class="btn primary" onclick="saveReceipt()">ບັນທຶກໃບບິນ</button>
+   <button class="btn secondary" onclick="preparePrint()">ພິມ / ບັນທຶກ PDF</button>
+   <button class="btn secondary" onclick="newReceipt()">ລ້າງຟອມ</button>
+  </div>
+ </section>
+ <section id="historyView" class="hidden">
+  <div class="card"><h2>ປະຫວັດໃບຮັບເງິນ</h2><div id="historyList"></div><p class="note">ປະຫວັດຈະຖືກເກັບໄວ້ໃນ Browser ແລະເຄື່ອງນີ້ເທົ່ານັ້ນ. ການລຶບຂໍ້ມູນ Browser ຫຼືປ່ຽນເຄື່ອງອາດເຮັດໃຫ້ປະຫວັດຫາຍ.</p></div>
+ </section>
+ <section id="settings" class="hidden">
+  <div class="card"><h2>ຂໍ້ມູນຮ້ານ / ບໍລິສັດ</h2>
+   <div class="grid">
+    <div class="field full"><label>ຊື່ຮ້ານ / ບໍລິສັດ</label><input id="shopName" placeholder="ຊື່ຮ້ານ"></div>
+    <div class="field"><label>ຊື່ພາສາອັງກິດ (ຖ້າມີ)</label><input id="shopEnglish"></div>
+    <div class="field"><label>ເບີໂທຮ້ານ</label><input id="shopPhone"></div>
+    <div class="field full"><label>ທີ່ຢູ່ຮ້ານ</label><input id="shopAddress"></div>
+    <div class="field"><label>ອີເມວ</label><input id="shopEmail"></div>
+    <div class="field"><label>ຊື່ຜູ້ຮັບເງິນ / ລາຍເຊັນ</label><input id="signName"></div>
+    <div class="field full"><b>ບັນຊີຮັບເງິນ 1</b></div>
+    <div class="field"><label>ຊື່ທະນາຄານ 1</label><input id="bankName1" placeholder="ຕົວຢ່າງ: BCEL"></div>
+    <div class="field"><label>ຊື່ບັນຊີ 1</label><input id="bankAccountName1" placeholder="ຊື່ເຈົ້າຂອງບັນຊີ"></div>
+    <div class="field full"><label>ເລກບັນຊີ 1</label><input id="bankAccountNumber1" inputmode="numeric" placeholder="ເລກບັນຊີ"></div>
+    <div class="field full"><label>QR Code ບັນຊີ 1 (PNG/JPG)</label><input id="qrUpload1" type="file" accept="image/png,image/jpeg,image/webp"><img id="qrPreview1" alt="QR 1 preview" style="display:none;max-width:150px;max-height:150px;object-fit:contain;border:1px solid #dce4df;border-radius:8px;padding:6px"></div>
+    <div class="field full"><b>ບັນຊີຮັບເງິນ 2</b></div>
+    <div class="field"><label>ຊື່ທະນາຄານ 2</label><input id="bankName2" placeholder="ຕົວຢ່າງ: JDB / LDB"></div>
+    <div class="field"><label>ຊື່ບັນຊີ 2</label><input id="bankAccountName2" placeholder="ຊື່ເຈົ້າຂອງບັນຊີ"></div>
+    <div class="field full"><label>ເລກບັນຊີ 2</label><input id="bankAccountNumber2" inputmode="numeric" placeholder="ເລກບັນຊີ"></div>
+    <div class="field full"><label>QR Code ບັນຊີ 2 (PNG/JPG)</label><input id="qrUpload2" type="file" accept="image/png,image/jpeg,image/webp"><img id="qrPreview2" alt="QR 2 preview" style="display:none;max-width:150px;max-height:150px;object-fit:contain;border:1px solid #dce4df;border-radius:8px;padding:6px"></div>
+   </div>
+   <p class="note">ຂໍ້ມູນບັນຊີ ແລະ QR ຈະຖືກເກັບໃນ Browser ຂອງເຄື່ອງນີ້. ກະລຸນາກວດສອບກ່ອນນຳໃຊ້.</p>
+   <button class="btn primary" style="margin-top:12px" onclick="saveSettings()">ບັນທຶກຂໍ້ມູນຮ້ານ</button>
+  </div>
+ </section>
+ <section id="paper">
+  <div class="paper-head"><h1 id="pShop"></h1><p id="pEnglish"></p><p id="pContact"></p><p id="pAddress"></p></div>
+  <div class="paper-title">ໃບຮັບເງິນ</div>
+  <div class="paper-info">
+   <div><b>ເລກທີ:</b> <span id="pNo"></span></div><div><b>ວັນທີ:</b> <span id="pDate"></span></div>
+   <div><b>ຊື່ລູກຄ້າ:</b> <span id="pCustomer"></span></div><div><b>ເບີໂທ:</b> <span id="pPhone"></span></div>
+   <div style="grid-column:1/-1"><b>ທີ່ຢູ່:</b> <span id="pCustomerAddress"></span></div>
+   <div style="grid-column:1/-1"><b>ໝາຍເຫດ:</b> <span id="pMemo"></span></div>
+  </div>
+  <table><thead><tr><th>ລ/ດ</th><th>ລາຍການ</th><th>ຈຳນວນ</th><th>ລາຄາ/ໜ່ວຍ</th><th>ຫຼຸດ/ໜ່ວຍ</th><th>ລວມ (LAK)</th></tr></thead><tbody id="pRows"></tbody></table>
+  <div class="totalbox">
+   <div><span>ຍອດລວມ</span><b id="pTotal"></b></div>
+   <div><span>ຮັບເງິນແລ້ວ</span><b id="pPaid"></b></div>
+   <div class="grand"><span>ຄ້າງຊຳລະ</span><b id="pBalance"></b></div>
+  </div>
+  <div class="paper-foot">
+   <div style="flex:1"><b>ຂໍ້ມູນສຳລັບຊຳລະເງິນ</b>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:8px">
+     <div style="min-width:145px"><b>ບັນຊີ 1</b><p id="pBankName1"></p><p id="pBankAccountName1"></p><p id="pBankAccountNumber1"></p><img id="pQR1" alt="QR ບັນຊີ 1" style="display:none;width:115px;height:115px;object-fit:contain;margin-top:5px"></div>
+     <div style="min-width:145px"><b>ບັນຊີ 2</b><p id="pBankName2"></p><p id="pBankAccountName2"></p><p id="pBankAccountNumber2"></p><img id="pQR2" alt="QR ບັນຊີ 2" style="display:none;width:115px;height:115px;object-fit:contain;margin-top:5px"></div>
+    </div>
+    <p style="margin-top:12px"><b>ຂໍຂອບໃຈທີ່ໃຊ້ບໍລິການ</b></p><p id="pShopFoot"></p>
+   </div>
+   <div class="sign"><div class="signline">ຜູ້ຮັບເງິນ / ລາຍເຊັນ<br><b id="pSign"></b></div></div>
+  </div>
+ </section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const fmt=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(Number(n)||0)+' ₭';
+let rows=[], editingId=null;
+const today=()=>new Date().toISOString().slice(0,10);
+function addItem(data={}){rows.push({name:data.name||'',qty:data.qty??1,unit:data.unit??0,discount:data.discount??0});renderItems()}
+function renderItems(){
+ $('items').innerHTML='';
+ rows.forEach((r,i)=>{
+  const el=document.createElement('div');el.className='item';
+  el.innerHTML=`<div class="item-head"><span>ລາຍການ ${i+1}</span><button class="remove no-print" type="button" onclick="removeItem(${i})">ລຶບ</button></div>
+  <div class="item-grid">
+   <div class="field" style="grid-column:1/-1"><label>ຊື່ສິນຄ້າ / ບໍລິການ</label><input data-i="${i}" data-k="name" value="${esc(r.name)}" placeholder="ລາຍການ"></div>
+   <div class="field"><label>ຈຳນວນ</label><input data-i="${i}" data-k="qty" type="number" inputmode="decimal" min="0" value="${r.qty}"></div>
+   <div class="field"><label>ລາຄາຕໍ່ໜ່ວຍ (ກີບ)</label><input data-i="${i}" data-k="unit" type="number" inputmode="decimal" min="0" value="${r.unit}"></div>
+   <div class="field"><label>ສ່ວນຫຼຸດຕໍ່ໜ່ວຍ (ກີບ)</label><input data-i="${i}" data-k="discount" type="number" inputmode="decimal" min="0" value="${r.discount}"></div>
+   <div class="field"><label>ລວມ</label><input readonly value="${fmt(Math.max(0,Number(r.qty)*(Number(r.unit)-Number(r.discount))))}"></div>
+  </div>`;
+  $('items').appendChild(el);
+ });
+ $('items').querySelectorAll('input[data-i]').forEach(inp=>inp.addEventListener('input',e=>{
+  const i=Number(e.target.dataset.i),k=e.target.dataset.k;rows[i][k]=k==='name'?e.target.value:Number(e.target.value||0);updateTotals();
+  const total=e.target.closest('.item').querySelectorAll('input[readonly]')[0];total.value=fmt(lineTotal(rows[i]));
+ }));
+ updateTotals();
+}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function lineTotal(r){return Math.max(0,Number(r.qty||0)*(Number(r.unit||0)-Number(r.discount||0)))}
+function total(){return rows.reduce((s,r)=>s+lineTotal(r),0)}
+function updateTotals(){const t=total(),p=Number($('paid').value||0);$('grandTotal').textContent=fmt(t);$('balance').textContent=fmt(Math.max(0,t-p))}
+function removeItem(i){rows.splice(i,1);renderItems()}
+function showTab(which){
+ ['new','history','settings'].forEach(x=>{const el=$(x==='new'?'editor':x==='history'?'historyView':'settings');el.classList.toggle('hidden',x!==which);$('tab'+(x==='new'?'New':x==='history'?'History':'Settings')).classList.toggle('active',x===which)});
+ if(which==='history')renderHistory();
+}
+function getSettings(){return JSON.parse(localStorage.getItem('receiptSettings')||'{}')}
+function saveSettings(){
+ const s=getSettings();
+ ['shopName','shopEnglish','shopPhone','shopAddress','shopEmail','signName','bankName1','bankAccountName1','bankAccountNumber1','bankName2','bankAccountName2','bankAccountNumber2'].forEach(k=>s[k]=$(k).value.trim());
+ localStorage.setItem('receiptSettings',JSON.stringify(s));alert('ບັນທຶກຂໍ້ມູນຮ້ານ ແລະສອງບັນຊີແລ້ວ');
+}
+function loadSettings(){
+ const s=getSettings();Object.keys(s).forEach(k=>{if($(k) && typeof s[k]==='string')$(k).value=s[k]});
+ ['1','2'].forEach(n=>{if(s['qrData'+n]){$('qrPreview'+n).src=s['qrData'+n];$('qrPreview'+n).style.display='block'}});
+}
+['1','2'].forEach(n=>$('qrUpload'+n).addEventListener('change',e=>{
+ const file=e.target.files&&e.target.files[0];if(!file)return;
+ if(file.size>1500000){alert('ຮູບ QR ໃຫຍ່ເກີນໄປ. ກະລຸນາໃຊ້ຮູບບໍ່ເກີນ 1.5MB');e.target.value='';return}
+ const reader=new FileReader();reader.onload=()=>{
+  const s=getSettings();s['qrData'+n]=reader.result;localStorage.setItem('receiptSettings',JSON.stringify(s));
+  $('qrPreview'+n).src=reader.result;$('qrPreview'+n).style.display='block';
+ };reader.readAsDataURL(file);
+}));
+function history(){return JSON.parse(localStorage.getItem('receiptHistory')||'[]')}
+function formData(){return {id:editingId||String(Date.now()),no:$('receiptNo').value,date:$('receiptDate').value,customer:$('customer').value,phone:$('phone').value,address:$('address').value,memo:$('memo').value,rows:JSON.parse(JSON.stringify(rows)),paid:Number($('paid').value||0),total:total()}}
+function saveReceipt(){
+ if(!$('receiptNo').value.trim()){$('receiptNo').value='RC-'+Date.now().toString().slice(-8)}
+ if(rows.length===0){alert('ກະລຸນາເພີ່ມລາຍການກ່ອນ');return}
+ const d=formData(),h=history(),idx=h.findIndex(x=>x.id===d.id);
+ if(idx>=0)h[idx]=d;else h.unshift(d);
+ localStorage.setItem('receiptHistory',JSON.stringify(h));editingId=d.id;alert('ບັນທຶກໃບຮັບເງິນແລ້ວ');
+}
+function renderHistory(){
+ const h=history();$('historyList').innerHTML='';
+ if(!h.length){$('historyList').textContent='ຍັງບໍ່ມີປະຫວັດໃບບິນ';return}
+ h.forEach(d=>{const div=document.createElement('div');div.className='history-row';div.innerHTML=`<div><b>${esc(d.no)}</b><small>${esc(d.date)} • ${esc(d.customer||'ບໍ່ລະບຸລູກຄ້າ')}</small><b>${fmt(d.total)}</b></div><div><button onclick="loadReceipt('${d.id}')">ເປີດ</button> <button onclick="deleteReceipt('${d.id}')">ລຶບ</button></div>`;$('historyList').appendChild(div)})
+}
+function loadReceipt(id){
+ const d=history().find(x=>x.id===id);if(!d)return;editingId=d.id;
+ $('receiptNo').value=d.no;$('receiptDate').value=d.date;$('customer').value=d.customer;$('phone').value=d.phone;$('address').value=d.address;$('memo').value=d.memo;$('paid').value=d.paid;
+ rows=JSON.parse(JSON.stringify(d.rows));renderItems();showTab('new');
+}
+function deleteReceipt(id){if(!confirm('ຕ້ອງການລຶບໃບບິນນີ້ບໍ?'))return;localStorage.setItem('receiptHistory',JSON.stringify(history().filter(x=>x.id!==id)));renderHistory()}
+function newReceipt(){
+ editingId=null;$('receiptNo').value='';$('receiptDate').value=today();$('customer').value='';$('phone').value='';$('address').value='';$('memo').value='';$('paid').value=0;rows=[];addItem();addItem();
+}
+function preparePrint(){
+ if(!rows.length){alert('ກະລຸນາເພີ່ມລາຍການກ່ອນ');return}
+ const s=getSettings(),d=formData();
+ $('pShop').textContent=s.shopName||'ຊື່ຮ້ານ / ບໍລິສັດ';$('pEnglish').textContent=s.shopEnglish||'';
+ $('pContact').textContent=[s.shopPhone,s.shopEmail].filter(Boolean).join(' • ');$('pAddress').textContent=s.shopAddress||'';
+ $('pNo').textContent=d.no||'—';$('pDate').textContent=d.date||'—';$('pCustomer').textContent=d.customer||'—';$('pPhone').textContent=d.phone||'—';$('pCustomerAddress').textContent=d.address||'—';$('pMemo').textContent=d.memo||'—';
+ $('pRows').innerHTML=rows.map((r,i)=>`<tr><td>${i+1}</td><td class="desc">${esc(r.name)}</td><td>${esc(r.qty)}</td><td>${fmt(r.unit)}</td><td>${fmt(r.discount)}</td><td>${fmt(lineTotal(r))}</td></tr>`).join('');
+ $('pTotal').textContent=fmt(d.total);$('pPaid').textContent=fmt(d.paid);$('pBalance').textContent=fmt(Math.max(0,d.total-d.paid));$('pShopFoot').textContent=s.shopName||'';$('pSign').textContent=s.signName||'';
+ ['1','2'].forEach(n=>{
+  $('pBankName'+n).textContent=s['bankName'+n]?'ທະນາຄານ: '+s['bankName'+n]:'';
+  $('pBankAccountName'+n).textContent=s['bankAccountName'+n]?'ຊື່ບັນຊີ: '+s['bankAccountName'+n]:'';
+  $('pBankAccountNumber'+n).textContent=s['bankAccountNumber'+n]?'ເລກບັນຊີ: '+s['bankAccountNumber'+n]:'';
+  if(s['qrData'+n]){$('pQR'+n).src=s['qrData'+n];$('pQR'+n).style.display='block'}else{$('pQR'+n).style.display='none'}
+ });
+ window.print();
+}
+loadSettings();newReceipt();
+</script>
+</body>
+</html>
