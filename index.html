@@ -4,11 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#123b35">
-<title>ແອັບໃບຮັບເງິນ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>ໃບເກັບເງີນ</title>
 <style>
 :root{--green:#123b35;--gold:#c59a52;--bg:#f4f6f4;--ink:#1d2926;--muted:#66736e;--line:#dce4df}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans Lao","Phetsarath OT",sans-serif}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans Lao",sans-serif}
 header{background:var(--green);color:#fff;padding:22px 16px 18px}
 header h1{font-size:22px;margin:0 0 5px}
 header p{margin:0;color:#d9e7e1;font-size:13px}
@@ -48,7 +51,7 @@ textarea{min-height:65px;resize:vertical}
  body{font-size:10.5px;color:#26332f;-webkit-print-color-adjust:exact;print-color-adjust:exact}
  header,.tabs,#editor,#historyView,.no-print{display:none!important}
  main{padding:0!important;margin:0!important;max-width:none!important}
- #paper{display:block!important;color:#26332f;font-family:"Noto Sans Lao","Phetsarath OT",sans-serif;padding:13mm 14mm 12mm}
+ #paper{display:block!important;color:#26332f;font-family:"Noto Sans Lao",sans-serif;padding:13mm 14mm 12mm}
  .paper-head{position:relative;text-align:left;border:0;border-left:5px solid #174b40;background:#f1f6f3;padding:13px 16px 12px 18px;margin:0 0 17px;border-radius:0 8px 8px 0}
  .paper-head h1{font-size:19px;line-height:1.4;margin:0 0 4px;color:#174b40;font-weight:800}
  .paper-head p{font-size:9px;line-height:1.5;margin:2px 0;color:#53645d}
@@ -83,19 +86,25 @@ textarea{min-height:65px;resize:vertical}
 </style>
 </head>
 <body>
-<header><h1>ໃບຮັບເງິນ</h1><p>ລະບົບອອກໃບຮັບເງິນ • ສະກຸນເງິນ LAK</p></header>
+<header><h1>ໃບເກັບເງີນ</h1><p>ລະບົບອອກໃບເກັບເງີນ • ສະກຸນເງິນ LAK</p></header>
 <main>
  <nav class="tabs no-print"><button id="tabNew" class="active" onclick="showTab('new')">ສ້າງໃບບິນ</button><button id="tabHistory" onclick="showTab('history')">ປະຫວັດໃບບິນ</button><button id="tabSettings" onclick="showTab('settings')">ຕັ້ງຄ່າຮ້ານ</button></nav>
  <section id="editor">
   <div class="card">
-   <h2>ຂໍ້ມູນໃບຮັບເງິນ</h2>
+   <h2>ຂໍ້ມູນໃບ</h2>
    <div class="grid">
     <div class="field"><label>ເລກທີໃບບິນ</label><input id="receiptNo"></div>
     <div class="field"><label>ວັນທີ</label><input id="receiptDate" type="date"></div>
-    <div class="field"><label>ຊື່ລູກຄ້າ</label><input id="customer" placeholder="ປ້ອນຊື່ລູກຄ້າ"></div>
+    <div class="field"><label>ເລືອກລູກຄ້າ</label>
+<select id="customerPreset">
+<option value="">-- ເລືອກບໍລິສັດ / ພິມຊື່ເອງ --</option>
+<option value="ບໍລິສັດ ນ້ຳເພັດຈະເລີນຊັບ ຈຳກັດຜູ້ດຽວ">ບໍລິສັດ ນ້ຳເພັດຈະເລີນຊັບ ຈຳກັດຜູ້ດຽວ</option>
+<option value="ບໍລິສັດ ຈະເລີນສຸກ ກໍ່ສ້າງຂົວ-ທາງແລະຊົນລະປະທານ ຈຳກັດຜູ້ດຽວ">ບໍລິສັດ ຈະເລີນສຸກ ກໍ່ສ້າງຂົວ-ທາງແລະຊົນລະປະທານ ຈຳກັດຜູ້ດຽວ</option>
+<option value="__custom__">ລູກຄ້າອື່ນ (ພິມຊື່ເອງ)</option>
+</select>
+<label style="margin-top:7px">ຊື່ລູກຄ້າ</label><input id="customer" placeholder="ປ້ອນຊື່ລູກຄ້າ"></div>
     <div class="field"><label>ເບີໂທ</label><input id="phone" inputmode="tel" placeholder="ເບີໂທລູກຄ້າ"></div>
     <div class="field full"><label>ທີ່ຢູ່</label><input id="address" placeholder="ທີ່ຢູ່ລູກຄ້າ"></div>
-    <div class="field full"><label>ໝາຍເຫດ</label><input id="memo" placeholder="ລາຍລະອຽດເພີ່ມເຕີມ (ຖ້າມີ)"></div>
    </div>
   </div>
   <div class="card">
@@ -109,6 +118,12 @@ textarea{min-height:65px;resize:vertical}
    <div class="field" style="margin-top:12px"><label>ຈຳນວນເງິນທີ່ຮັບແລ້ວ (ກີບ)</label><input id="paid" type="number" inputmode="decimal" min="0" value="0" oninput="updateTotals()"></div>
    <div class="summary" style="margin-top:12px"><span>ຍອດຄ້າງຊຳລະ</span><strong id="balance">0 ₭</strong></div>
    <p class="note">ສູດ: ຈຳນວນ × (ລາຄາຕໍ່ໜ່ວຍ − ສ່ວນຫຼຸດຕໍ່ໜ່ວຍ). ສະກຸນເງິນແມ່ນ ກີບ (LAK).</p>
+  </div>
+  <div class="card no-print">
+   <h2>ລາຍເຊັນດິຈິຕອນ</h2>
+   <p class="note">ໃຊ້ນິ້ວມືເຊັນໃນ iPhone ຫຼື ໃຊ້ເມົາສ໌ເຊັນໃນຄອມ. ລາຍເຊັນຈະຖືກບັນທຶກກັບໃບບິນນີ້.</p>
+   <canvas id="signaturePad" aria-label="ພື້ນທີ່ສຳລັບເຊັນຊື່" style="display:block;width:100%;height:150px;border:1px solid #cfd9d3;border-radius:9px;background:#fff;touch-action:none"></canvas>
+   <button type="button" class="btn secondary" style="margin-top:8px" onclick="clearSignature()">ລຶບລາຍເຊັນ</button>
   </div>
   <div class="actions no-print">
    <button class="btn primary" onclick="saveReceipt()">ບັນທຶກໃບບິນ</button>
@@ -145,14 +160,13 @@ textarea{min-height:65px;resize:vertical}
  </section>
  <section id="paper">
   <div class="paper-head"><h1 id="pShop"></h1><p id="pEnglish"></p><p id="pContact"></p><p id="pAddress"></p></div>
-  <div class="paper-title">ໃບຮັບເງິນ</div>
+  <div class="paper-title">ໃບເກັບເງິນ</div>
   <div class="paper-info">
    <div><b>ເລກທີ:</b> <span id="pNo"></span></div><div><b>ວັນທີ:</b> <span id="pDate"></span></div>
    <div><b>ຊື່ລູກຄ້າ:</b> <span id="pCustomer"></span></div><div><b>ເບີໂທ:</b> <span id="pPhone"></span></div>
    <div style="grid-column:1/-1"><b>ທີ່ຢູ່:</b> <span id="pCustomerAddress"></span></div>
-   <div style="grid-column:1/-1"><b>ໝາຍເຫດ:</b> <span id="pMemo"></span></div>
   </div>
-  <table><thead><tr><th>ລ/ດ</th><th>ລາຍການ</th><th>ຈຳນວນ</th><th>ລາຄາ/ໜ່ວຍ</th><th>ຫຼຸດ/ໜ່ວຍ</th><th>ລວມ (LAK)</th></tr></thead><tbody id="pRows"></tbody></table>
+  <table><thead><tr><th>ລ/ດ</th><th>ລາຍການ</th><th>ຈຳນວນ (ລິດ)</th><th>ລາຄາ/ລິດ</th><th>ສ່ວນຫຼຸດ/ລິດ</th><th>ລວມ (LAK)</th></tr></thead><tbody id="pRows"></tbody></table>
   <div class="totalbox">
    <div><span>ຍອດລວມ</span><b id="pTotal"></b></div>
    <div><span>ຮັບເງິນແລ້ວ</span><b id="pPaid"></b></div>
@@ -166,14 +180,14 @@ textarea{min-height:65px;resize:vertical}
     </div>
     <p style="margin-top:12px"><b>ຂໍຂອບໃຈທີ່ໃຊ້ບໍລິການ</b></p><p id="pShopFoot"></p>
    </div>
-   <div class="sign"><div class="signline">ຜູ້ຮັບເງິນ / ລາຍເຊັນ<br><b id="pSign"></b></div></div>
+   <div class="sign"><div class="signline">ຜູ້ຮັບເງິນ / ລາຍເຊັນ<br><img id="pSignature" alt="ລາຍເຊັນ" style="display:none;max-width:135px;max-height:55px;object-fit:contain;margin:4px auto"><b id="pSign"></b></div></div>
   </div>
  </section>
 </main>
 <script>
 const $=id=>document.getElementById(id);
 const fmt=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(Number(n)||0)+' ₭';
-let rows=[], editingId=null;
+let rows=[], editingId=null, signatureData='';
 const today=()=>new Date().toISOString().slice(0,10);
 function addItem(data={}){rows.push({name:data.name||'',qty:data.qty??1,unit:data.unit??0,discount:data.discount??0});renderItems()}
 function renderItems(){
@@ -182,18 +196,37 @@ function renderItems(){
   const el=document.createElement('div');el.className='item';
   el.innerHTML=`<div class="item-head"><span>ລາຍການ ${i+1}</span><button class="remove no-print" type="button" onclick="removeItem(${i})">ລຶບ</button></div>
   <div class="item-grid">
-   <div class="field" style="grid-column:1/-1"><label>ຊື່ສິນຄ້າ / ບໍລິການ</label><input data-i="${i}" data-k="name" value="${esc(r.name)}" placeholder="ລາຍການ"></div>
-   <div class="field"><label>ຈຳນວນ</label><input data-i="${i}" data-k="qty" type="number" inputmode="decimal" min="0" value="${r.qty}"></div>
+   <div class="field" style="grid-column:1/-1"><label>ຊື່ສິນຄ້າ / ບໍລິການ</label>
+    <select data-i="${i}" data-k="preset">
+     <option value="">-- ເລືອກລາຍການ --</option>
+     <option value="ນ້ຳມັນກາຊວນ" ${r.name==='ນ້ຳມັນກາຊວນ'?'selected':''}>ນ້ຳມັນກາຊວນ</option>
+     <option value="ນ້ຳມັນແອັດຊັງ" ${r.name==='ນ້ຳມັນແອັດຊັງ'?'selected':''}>ນ້ຳມັນແອັດຊັງ</option>
+     <option value="ນ້ຳມັນແອັດຊັງພິເສດ" ${r.name==='ນ້ຳມັນແອັດຊັງພິເສດ'?'selected':''}>ນ້ຳມັນແອັດຊັງພິເສດ</option>
+     <option value="__custom__" ${r.name && !['ນ້ຳມັນກາຊວນ','ນ້ຳມັນແອັດຊັງ','ນ້ຳມັນແອັດຊັງພິເສດ'].includes(r.name)?'selected':''}>ອື່ນໆ (ພິມເອງ)</option>
+    </select>
+    <input data-i="${i}" data-k="customName" value="${esc(r.name && !['ນ້ຳມັນກາຊວນ','ນ້ຳມັນແອັດຊັງ','ນ້ຳມັນແອັດຊັງພິເສດ'].includes(r.name)?r.name:'')}" placeholder="ພິມຊື່ລາຍການ" style="margin-top:7px;display:${r.name && !['ນ້ຳມັນກາຊວນ','ນ້ຳມັນແອັດຊັງ','ນ້ຳມັນແອັດຊັງພິເສດ'].includes(r.name)?'block':'none'}">
+   </div>
+   <div class="field"><label>ຈຳນວນ (ລິດ)</label><input data-i="${i}" data-k="qty" type="number" inputmode="decimal" min="0" value="${r.qty}"></div>
    <div class="field"><label>ລາຄາຕໍ່ໜ່ວຍ (ກີບ)</label><input data-i="${i}" data-k="unit" type="number" inputmode="decimal" min="0" value="${r.unit}"></div>
    <div class="field"><label>ສ່ວນຫຼຸດຕໍ່ໜ່ວຍ (ກີບ)</label><input data-i="${i}" data-k="discount" type="number" inputmode="decimal" min="0" value="${r.discount}"></div>
    <div class="field"><label>ລວມ</label><input readonly value="${fmt(Math.max(0,Number(r.qty)*(Number(r.unit)-Number(r.discount))))}"></div>
   </div>`;
   $('items').appendChild(el);
  });
- $('items').querySelectorAll('input[data-i]').forEach(inp=>inp.addEventListener('input',e=>{
-  const i=Number(e.target.dataset.i),k=e.target.dataset.k;rows[i][k]=k==='name'?e.target.value:Number(e.target.value||0);updateTotals();
-  const total=e.target.closest('.item').querySelectorAll('input[readonly]')[0];total.value=fmt(lineTotal(rows[i]));
- }));
+ $('items').querySelectorAll('input[data-i],select[data-i]').forEach(inp=>{
+  const handler=e=>{
+   const i=Number(e.target.dataset.i),k=e.target.dataset.k;
+   if(k==='preset'){
+    const custom=e.target.parentElement.querySelector('[data-k="customName"]');
+    if(e.target.value==='__custom__'){custom.style.display='block';rows[i].name=custom.value}
+    else{custom.style.display='none';rows[i].name=e.target.value}
+   }else if(k==='customName'){rows[i].name=e.target.value}
+   else{rows[i][k]=k==='name'?e.target.value:Number(e.target.value||0)}
+   updateTotals();
+   const total=e.target.closest('.item').querySelector('input[readonly]');if(total)total.value=fmt(lineTotal(rows[i]));
+  };
+  inp.addEventListener(inp.tagName==='SELECT'?'change':'input',handler);
+ });
  updateTotals();
 }
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -224,9 +257,8 @@ function loadSettings(){
  };reader.readAsDataURL(file);
 }));
 function history(){return JSON.parse(localStorage.getItem('receiptHistory')||'[]')}
-function formData(){return {id:editingId||String(Date.now()),no:$('receiptNo').value,date:$('receiptDate').value,customer:$('customer').value,phone:$('phone').value,address:$('address').value,memo:$('memo').value,rows:JSON.parse(JSON.stringify(rows)),paid:Number($('paid').value||0),total:total()}}
+function formData(){return {id:editingId||String(Date.now()),no:$('receiptNo').value,date:$('receiptDate').value,customer:$('customer').value,phone:$('phone').value,address:$('address').value,rows:JSON.parse(JSON.stringify(rows)),paid:Number($('paid').value||0),total:total(),signature:signatureData}}
 function saveReceipt(){
- if(!$('receiptNo').value.trim()){$('receiptNo').value='RC-'+Date.now().toString().slice(-8)}
  if(rows.length===0){alert('ກະລຸນາເພີ່ມລາຍການກ່ອນ');return}
  const d=formData(),h=history(),idx=h.findIndex(x=>x.id===d.id);
  if(idx>=0)h[idx]=d;else h.unshift(d);
@@ -239,29 +271,76 @@ function renderHistory(){
 }
 function loadReceipt(id){
  const d=history().find(x=>x.id===id);if(!d)return;editingId=d.id;
- $('receiptNo').value=d.no;$('receiptDate').value=d.date;$('customer').value=d.customer;$('phone').value=d.phone;$('address').value=d.address;$('memo').value=d.memo;$('paid').value=d.paid;
- rows=JSON.parse(JSON.stringify(d.rows));renderItems();showTab('new');
+ $('receiptNo').value=d.no;$('receiptDate').value=d.date;$('customer').value=d.customer;$('phone').value=d.phone;$('address').value=d.address;$('paid').value=d.paid;
+ rows=JSON.parse(JSON.stringify(d.rows));signatureData=d.signature||'';renderItems();drawSavedSignature();showTab('new');
 }
 function deleteReceipt(id){if(!confirm('ຕ້ອງການລຶບໃບບິນນີ້ບໍ?'))return;localStorage.setItem('receiptHistory',JSON.stringify(history().filter(x=>x.id!==id)));renderHistory()}
-function newReceipt(){
- editingId=null;$('receiptNo').value='';$('receiptDate').value=today();$('customer').value='';$('phone').value='';$('address').value='';$('memo').value='';$('paid').value=0;rows=[];addItem();addItem();
+function nextReceiptNo(){
+ const nums=history().map(x=>String(x.no||'').match(/^RC-(\d+)$/)).filter(Boolean).map(m=>Number(m[1]));
+ return 'RC-'+String(Math.max(0,...nums)+1).padStart(6,'0');
 }
-function preparePrint(){
+function newReceipt(){
+ editingId=null;signatureData='';$('receiptNo').value=nextReceiptNo();$('receiptDate').value=today();$('customer').value='';$('phone').value='';$('address').value='';$('paid').value=0;rows=[];addItem();addItem();clearSignature();
+}
+async function preparePrint(){
  if(!rows.length){alert('ກະລຸນາເພີ່ມລາຍການກ່ອນ');return}
  const s=getSettings(),d=formData();
  $('pShop').textContent=s.shopName||'ຊື່ຮ້ານ / ບໍລິສັດ';$('pEnglish').textContent=s.shopEnglish||'';
  $('pContact').textContent=[s.shopPhone,s.shopEmail].filter(Boolean).join(' • ');$('pAddress').textContent=s.shopAddress||'';
- $('pNo').textContent=d.no||'—';$('pDate').textContent=d.date||'—';$('pCustomer').textContent=d.customer||'—';$('pPhone').textContent=d.phone||'—';$('pCustomerAddress').textContent=d.address||'—';$('pMemo').textContent=d.memo||'—';
+ $('pNo').textContent=d.no||'—';$('pDate').textContent=d.date||'—';$('pCustomer').textContent=d.customer||'—';$('pPhone').textContent=d.phone||'—';$('pCustomerAddress').textContent=d.address||'—';
  $('pRows').innerHTML=rows.map((r,i)=>`<tr><td>${i+1}</td><td class="desc">${esc(r.name)}</td><td>${esc(r.qty)}</td><td>${fmt(r.unit)}</td><td>${fmt(r.discount)}</td><td>${fmt(lineTotal(r))}</td></tr>`).join('');
- $('pTotal').textContent=fmt(d.total);$('pPaid').textContent=fmt(d.paid);$('pBalance').textContent=fmt(Math.max(0,d.total-d.paid));$('pShopFoot').textContent=s.shopName||'';$('pSign').textContent=s.signName||'';
+ $('pTotal').textContent=fmt(d.total);$('pPaid').textContent=fmt(d.paid);$('pBalance').textContent=fmt(Math.max(0,d.total-d.paid));$('pShopFoot').textContent=s.shopName||'';$('pSign').textContent='ກຸ່ມບໍລິສັດ ທີເອ ຈະເລີນຊັບ ການຄ້າ';
  ['1','2'].forEach(n=>{
   $('pBankName'+n).textContent=s['bankName'+n]?'ທະນາຄານ: '+s['bankName'+n]:'';
   $('pBankAccountName'+n).textContent=s['bankAccountName'+n]?'ຊື່ບັນຊີ: '+s['bankAccountName'+n]:'';
   $('pBankAccountNumber'+n).textContent=s['bankAccountNumber'+n]?'ເລກບັນຊີ: '+s['bankAccountNumber'+n]:'';
   if(s['qrData'+n]){$('pQR'+n).src=s['qrData'+n];$('pQR'+n).style.display='block'}else{$('pQR'+n).style.display='none'}
  });
+ const sig=$('pSignature');
+ if(d.signature){sig.src=d.signature;sig.style.display='block'}else{sig.removeAttribute('src');sig.style.display='none'}
+ document.title=`Receipt_${(d.no||'Receipt').replace(/[\\/:*?"<>|]/g,'-')}_${(d.date||'').replace(/[\\/:*?"<>|]/g,'-')}`;
+ if(document.fonts&&document.fonts.ready){await document.fonts.ready;}
  window.print();
 }
+
+const sigCanvas=$('signaturePad');
+let sigCtx=null, sigDrawing=false;
+function setupSignatureCanvas(){
+ const rect=sigCanvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
+ sigCanvas.width=Math.max(1,Math.round(rect.width*dpr));
+ sigCanvas.height=Math.max(1,Math.round(150*dpr));
+ sigCtx=sigCanvas.getContext('2d');sigCtx.setTransform(dpr,0,0,dpr,0,0);
+ sigCtx.lineWidth=2.2;sigCtx.lineCap='round';sigCtx.lineJoin='round';sigCtx.strokeStyle='#183f36';
+ if(signatureData)drawSavedSignature();
+}
+function signaturePoint(e){const r=sigCanvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+sigCanvas.addEventListener('pointerdown',e=>{
+ e.preventDefault();sigDrawing=true;sigCanvas.setPointerCapture(e.pointerId);
+ const p=signaturePoint(e);sigCtx.beginPath();sigCtx.moveTo(p.x,p.y);sigCtx.lineTo(p.x+0.01,p.y+0.01);sigCtx.stroke();
+});
+sigCanvas.addEventListener('pointermove',e=>{
+ if(!sigDrawing)return;e.preventDefault();const p=signaturePoint(e);sigCtx.lineTo(p.x,p.y);sigCtx.stroke();
+});
+['pointerup','pointercancel','lostpointercapture'].forEach(ev=>sigCanvas.addEventListener(ev,()=>{
+ if(sigDrawing){sigDrawing=false;signatureData=sigCanvas.toDataURL('image/png')}
+}));
+function clearSignature(){
+ if(!sigCtx){setupSignatureCanvas();return}
+ sigCtx.clearRect(0,0,sigCanvas.width,sigCanvas.height);signatureData='';
+}
+function drawSavedSignature(){
+ if(!signatureData||!sigCtx)return;
+ const img=new Image();img.onload=()=>{
+  const r=sigCanvas.getBoundingClientRect();sigCtx.clearRect(0,0,r.width,r.height);sigCtx.drawImage(img,0,0,r.width,r.height);
+ };img.src=signatureData;
+}
+window.addEventListener('resize',setupSignatureCanvas);
+setupSignatureCanvas();
+$('customerPreset').addEventListener('change',e=>{
+ const v=e.target.value;
+ if(v && v!=='__custom__')$('customer').value=v;
+ else if(v==='__custom__')$('customer').value='';
+});
 loadSettings();newReceipt();
 </script>
 </body>
